@@ -1,11 +1,14 @@
 package ru.koregin.stockAndTrade.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
+@Table(name = "sales")
 public class Sale {
 
     @Id
@@ -15,19 +18,26 @@ public class Sale {
     @Column(name = "doc_num", unique = true)
     private long docNum;
 
-    @Column(name = "price")
-    private double price;
-
     @Column(name = "total_amount")
     private double totalAmount;
 
-    @Column(name = "quantity")
-    private int quantity;
-
-
-    private String article;
+    @ManyToOne
+    @JoinColumn(name = "doc_type_id")
     private DocType docType;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "type_calc_id")
     private TypeCalc typeCalc;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
     private Employee employee;
+
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
+    private List<ItemFromSale> itemsFromSale;
 }

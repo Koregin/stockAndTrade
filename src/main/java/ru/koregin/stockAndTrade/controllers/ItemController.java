@@ -3,11 +3,9 @@ package ru.koregin.stockAndTrade.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.koregin.stockAndTrade.model.Arrival;
 import ru.koregin.stockAndTrade.model.Item;
 import ru.koregin.stockAndTrade.repository.ItemRepository;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

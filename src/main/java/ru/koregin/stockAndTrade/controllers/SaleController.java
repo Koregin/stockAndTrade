@@ -1,30 +1,31 @@
 package ru.koregin.stockAndTrade.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.koregin.stockAndTrade.model.Sale;
-import ru.koregin.stockAndTrade.repository.ItemRepository;
-import ru.koregin.stockAndTrade.repository.SaleRepository;
+import ru.koregin.stockAndTrade.services.SaleService;
 
 import java.util.logging.Logger;
 
 @RestController
 public class SaleController {
 
-    private static Logger logger = Logger.getLogger(ItemController.class.getName());
+    private static Logger logger = Logger.getLogger(SaleController.class.getName());
 
-    private final SaleRepository saleRepository;
-    private final ItemRepository itemRepository;
+    private final SaleService saleService;
 
-    public SaleController(SaleRepository saleRepository, ItemRepository itemRepository) {
-        this.saleRepository = saleRepository;
-        this.itemRepository = itemRepository;
+    public SaleController(SaleService saleService) {
+        this.saleService = saleService;
     }
 
     @PostMapping("/sale")
     public ResponseEntity<Void> createSale(@RequestBody Sale sale) {
-        // Проверить остатки каждого товара на складе и сравнить с документом
+        saleService.create(sale);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
     }
 }
