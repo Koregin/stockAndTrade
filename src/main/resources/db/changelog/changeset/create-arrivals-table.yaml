@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-arrivals
+      author: Koregin Evgeny
+      changes:
+        - createTable:
+            tableName: arrivals
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: doc_num
+                  type: int
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: total_amount
+                  type: number
+                  constraints:
+                    nullable: false
+              - column:
+                  name: oper_type
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_arrival
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stock_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_arrivals_stocks
+                    references: stocks(id)
+              - column:
+                  name: employee_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_arrivals_employees
+                    references: employees(id)
+              - column:
+                  name: vendor_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_arrivals_vendors
+                    references: vendors(id)

@@ -1,16 +1,10 @@
 package ru.koregin.stockAndTrade.model;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Data
 @Entity
 @Table(name = "items")
 public class Item {
@@ -20,38 +14,27 @@ public class Item {
 
     @Column(name = "purchase_price")
     private double purchasePrice;
+
     @Column(name = "sale_price")
     private double salePrice;
+
     @Column(name = "stock_quantity")
     private int stockQuantity;
-    @Column(name = "article")
+
+    @Column(name = "article", nullable = false)
     private String article;
-    @Column(name = "item_name")
+
+    @Column(name = "item_name", nullable = false)
     private String itemName;
+
     @Column(name = "barcode")
     private String barcode;
+
     @ManyToOne
-    @JoinColumn(name = "item_group_id")
+    @JoinColumn(name = "item_group_id", nullable = false)
     private ItemGroup itemGroup;
 
     @ManyToOne
-    @JoinColumn(name = "stock_id")
+    @JoinColumn(name = "stock_id", nullable = false)
     private Stock stock;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
-            return false;
-        }
-        Item item = (Item) o;
-        return id != 0 && Objects.equals(id, item.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

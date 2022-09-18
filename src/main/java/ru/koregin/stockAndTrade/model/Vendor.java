@@ -13,6 +13,6 @@ public class Vendor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "vendor_name")
+    @Column(name = "vendor_name", nullable = false)
     private String vendorName;
 }

@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-items
+      author: Koregin Evgeny
+      changes:
+        - createTable:
+            tableName: item_groups
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: group_name
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: stocks
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: stock_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: items
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: purchase_price
+                  type: number
+              - column:
+                  name: sale_price
+                  type: number
+              - column:
+                  name: stock_quantity
+                  type: int
+              - column:
+                  name: article
+                  type: varchar(30)
+              - column:
+                  name: item_name
+                  type: varchar(255)
+              - column:
+                  name: barcode
+                  type: varchar(14)
+              - column:
+                  name: item_group_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_items_item_group
+                    references: item_groups(id)
+              - column:
+                  name: stock_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_items_stocks
+                    references: stocks(id)

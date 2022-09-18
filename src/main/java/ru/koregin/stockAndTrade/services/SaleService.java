@@ -2,7 +2,7 @@ package ru.koregin.stockAndTrade.services;
 
 import org.springframework.stereotype.Service;
 import ru.koregin.stockAndTrade.model.Item;
-import ru.koregin.stockAndTrade.model.ItemFromSale;
+import ru.koregin.stockAndTrade.model.ItemSale;
 import ru.koregin.stockAndTrade.model.Sale;
 import ru.koregin.stockAndTrade.repository.ItemRepository;
 import ru.koregin.stockAndTrade.repository.SaleRepository;
@@ -10,6 +10,7 @@ import ru.koregin.stockAndTrade.repository.SaleRepository;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -27,17 +28,17 @@ public class SaleService {
 
     @Transactional
     public void create(Sale sale) {
-        List<ItemFromSale> items = sale.getItemsFromSale();
-        for (ItemFromSale item : items) {
-            Item foundItem = itemRepository.findItemByArticleAndItemName(item.getArticle(), item.getItemName());
-            if (foundItem == null) {
-                throw new NoSuchElementException("Товар " + item.getItemName() + " не найден в базе данных");
+        List<ItemSale> items = sale.getItemsSale();
+        for (ItemSale item : items) {
+            Optional<Item> foundItem = itemRepository.findById(item.getItem().getId());
+            if (foundItem.isEmpty()) {
+                throw new NoSuchElementException("Товар " + item.getItem().getItemName() + " не найден в базе данных");
             }
-            if (foundItem.getStockQuantity() < item.getQuantity()) {
-                throw new ArithmeticException("На складе не достаточно количества для продажи товара " + item.getItemName());
+            if (foundItem.get().getStockQuantity() < item.getQuantity()) {
+                throw new ArithmeticException("На складе не достаточно количества для продажи товара " + item.getItem().getItemName());
             }
-            foundItem.setStockQuantity(foundItem.getStockQuantity() - item.getQuantity());
-            itemRepository.save(foundItem);
+            foundItem.get().setStockQuantity(foundItem.get().getStockQuantity() - item.getQuantity());
+            itemRepository.save(foundItem.get());
         }
         saleRepository.save(sale);
         logger.info("Продажа создана");

@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-item_arrival
+      author: Koregin Evgeny
+      changes:
+        - createTable:
+            tableName: item_arrival
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: item_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_item_arrival_items
+                    references: items(id)
+              - column:
+                  name: arrival_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_item_arrival_arrivals
+                    references: arrivals(id)
+              - column:
+                  name: price
+                  type: number
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: number
+                  constraints:
+                    nullable: false

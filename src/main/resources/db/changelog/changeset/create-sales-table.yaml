@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-sales
+      author: Koregin Evgeny
+      changes:
+        - createTable:
+            tableName: sales
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: doc_num
+                  type: int
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: total_amount
+                  type: number
+                  constraints:
+                    nullable: false
+              - column:
+                  name: doc_type
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: customer
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type_calc
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: employee_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_sales_employees
+                    references: employees(id)

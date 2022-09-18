@@ -20,15 +20,15 @@ INSERT INTO item_groups(group_name) VALUES('Холодильное оборуд�
 INSERT INTO stocks(stock_name) VALUES('Центральный');
 INSERT INTO stocks(stock_name) VALUES('Склад магазина №1');
 
-INSERT INTO operation_types(type_name) VALUES('Ввод остатков');
-INSERT INTO operation_types(type_name) VALUES('Приход');
-INSERT INTO operation_types(type_name) VALUES('Возврат');
-
-INSERT INTO doc_types(type_name) VALUES('Кассовый чек');
-INSERT INTO doc_types(type_name) VALUES('Товарный чек');
-
-INSERT INTO calc_types(type_name) VALUES('Наличный');
-INSERT INTO calc_types(type_name) VALUES('Безналичный');
+--INSERT INTO operation_types(type_name) VALUES('Ввод остатков');
+--INSERT INTO operation_types(type_name) VALUES('Приход');
+--INSERT INTO operation_types(type_name) VALUES('Возврат');
+--
+--INSERT INTO doc_types(type_name) VALUES('Кассовый чек');
+--INSERT INTO doc_types(type_name) VALUES('Товарный чек');
+--
+--INSERT INTO calc_types(type_name) VALUES('Наличный');
+--INSERT INTO calc_types(type_name) VALUES('Безналичный');
 
 INSERT INTO employees(username, user_password, email) VALUES('manager', 'manager', 'manager@gmail.com');
 

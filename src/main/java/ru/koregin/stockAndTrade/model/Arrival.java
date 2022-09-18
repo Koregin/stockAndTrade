@@ -1,19 +1,13 @@
 package ru.koregin.stockAndTrade.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Objects;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "arrivals")
 public class Arrival {
@@ -22,54 +16,47 @@ public class Arrival {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "doc_num", unique = true)
+    @Column(name = "doc_num", unique = true, nullable = false)
     private long docNum;
 
-    @Column(name = "total_amount")
+    @Column(name = "total_amount", nullable = false)
     private double totalAmount;
 
-    @NonNull
-    @ManyToOne
-    @JoinColumn(name = "oper_type_id")
+    @Column(name = "oper_type", nullable = false)
     private OperationType operationType;
 
     @Column(name = "date_arrival")
     private ZonedDateTime dateArrival = ZonedDateTime.now();
 
-    @NonNull
     @ManyToOne
-    @JoinColumn(name = "stock_id")
+    @JoinColumn(name = "stock_id", nullable = false)
     private Stock stock;
 
-    @NonNull
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @NonNull
     @ManyToOne
-    @JoinColumn(name = "vendor_id")
+    @JoinColumn(name = "vendor_id", nullable = false)
     private Vendor vendor;
 
-    @NonNull
     @OneToMany(mappedBy = "arrival", cascade = CascadeType.PERSIST)
     @JsonManagedReference
-    private List<ItemFromArrival> itemsFromArrival;
+    private List<ItemArrival> itemsArrival;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
-            return false;
-        }
-        Arrival arrival = (Arrival) o;
-        return id != 0 && Objects.equals(id, arrival.id);
-    }
+    public enum OperationType {
+        ENTERBALANCES("Ввод остатков"),
+        ARRIVAL("Приход"),
+        REFUND("Возврат");
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
+        private String title;
+
+        OperationType(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
     }
 }

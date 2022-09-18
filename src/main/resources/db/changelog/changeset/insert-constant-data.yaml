@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-constant-data
+      author: Koregin Evgeny
+      changes:
+        - insert:
+            tableName: item_groups
+            columns:
+              - column:
+                  name: group_name
+                  value: "Аудио/Видео"
+        - insert:
+            tableName: item_groups
+            columns:
+              - column:
+                  name: group_name
+                  value: "Автотехника"
+        - insert:
+            tableName: item_groups
+            columns:
+              - column:
+                  name: group_name
+                  value: "Фототехника"
+        - insert:
+            tableName: item_groups
+            columns:
+              - column:
+                  name: group_name
+                  value: "Холодильное оборудование"
+        - insert:
+            tableName: stocks
+            columns:
+              - column:
+                  name: stock_name
+                  value: "Центральный"
+        - insert:
+            tableName: employees
+            columns:
+              - column:
+                  name: username
+                  value: "manager"
+              - column:
+                  name: user_password
+                  value: "manager"
+              - column:
+                  name: email
+                  value: "manager@gmail.com"
+        - insert:
+            tableName: vendors
+            columns:
+              - column:
+                  name: vendor_name
+                  value: "DNS"

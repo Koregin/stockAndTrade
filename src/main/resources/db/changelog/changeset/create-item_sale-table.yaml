@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-item_sale
+      author: Koregin Evgeny
+      changes:
+        - createTable:
+            tableName: item_sale
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: item_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_item_sale_items
+                    references: items(id)
+              - column:
+                  name: sale_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_item_sale_sales
+                    references: sales(id)
+              - column:
+                  name: price
+                  type: number
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: number
+                  constraints:
+                    nullable: false

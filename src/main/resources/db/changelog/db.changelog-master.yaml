@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset/create-items-table.yaml
+  - include:
+      file: db/changelog/changeset/create-employee-table.yaml
+  - include:
+      file: db/changelog/changeset/create-arrivals-table.yaml
+  - include:
+      file: db/changelog/changeset/create-sales-table.yaml
+  - include:
+      file: db/changelog/changeset/create-item_arrival-table.yaml
+  - include:
+      file: db/changelog/changeset/create-item_sale-table.yaml
+  - include:
+      file: db/changelog/changeset/insert-constant-data.yaml

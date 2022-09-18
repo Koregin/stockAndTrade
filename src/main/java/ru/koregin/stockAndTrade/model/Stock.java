@@ -12,6 +12,6 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "stock_name")
+    @Column(name = "stock_name", nullable = false)
     private String stockName;
 }
