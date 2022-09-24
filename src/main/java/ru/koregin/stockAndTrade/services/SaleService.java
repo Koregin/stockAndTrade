@@ -32,10 +32,10 @@ public class SaleService {
         for (ItemSale item : items) {
             Optional<Item> foundItem = itemRepository.findById(item.getItem().getId());
             if (foundItem.isEmpty()) {
-                throw new NoSuchElementException("Товар " + item.getItem().getItemName() + " не найден в базе данных");
+                throw new NoSuchElementException("Товар ID: " + item.getItem().getId() + " не найден в базе данных");
             }
             if (foundItem.get().getStockQuantity() < item.getQuantity()) {
-                throw new ArithmeticException("На складе не достаточно количества для продажи товара " + item.getItem().getItemName());
+                throw new ArithmeticException("На складе не достаточно количества для продажи товара " + foundItem.get().getItemName());
             }
             foundItem.get().setStockQuantity(foundItem.get().getStockQuantity() - item.getQuantity());
             itemRepository.save(foundItem.get());

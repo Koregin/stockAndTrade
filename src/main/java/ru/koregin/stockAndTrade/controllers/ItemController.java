@@ -1,5 +1,8 @@
 package ru.koregin.stockAndTrade.controllers;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 @RestController
+@RequestMapping("/item")
 public class ItemController {
 
     private static Logger logger = Logger.getLogger(ItemController.class.getName());
@@ -22,7 +26,7 @@ public class ItemController {
         this.itemRepository = itemRepository;
     }
 
-    @PostMapping("/item")
+    @PostMapping
     public ResponseEntity<Item> create(@RequestBody Item item) {
 
         logger.info("Created Item info: " + item.toString());
@@ -64,26 +68,58 @@ public class ItemController {
                 .body(quantityOnStock);
     }
 
-    @GetMapping("/item/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Item> findById(@PathVariable("id") long id) {
+        logger.info("Find Item by ID: " + id);
         Item item = itemRepository.findItemById(id);
-        logger.info("Found Item info: " + item);
+        HttpStatus httpStatus = HttpStatus.OK;
+        if (item == null) {
+            httpStatus = HttpStatus.NOT_FOUND;
+        }
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(httpStatus)
                 .body(item);
     }
 
-    @GetMapping("/item/article/{article}")
-    public ResponseEntity<Item> findByArticle(@PathVariable("article") String article) {
-        Item item = itemRepository.findItemByArticle(article);
-        logger.info("Found Item by article info: " + item);
-        if (item != null) {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(item);
+    @GetMapping("/article/{article}")
+    public ResponseEntity<List<Item>> findByArticle(@PathVariable("article") String article) {
+        logger.info("Found Item by article: " + article);
+        List<Item> items = itemRepository.findItemByArticle(article);
+        HttpStatus httpStatus = HttpStatus.OK;
+        if (items.isEmpty()) {
+            httpStatus = HttpStatus.NOT_FOUND;
         }
         return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .build();
+                .status(httpStatus)
+                .body(items);
+    }
+
+    @GetMapping("/name/{namePattern}")
+    public ResponseEntity<List<Item>> findByName(@PathVariable("namePattern") String pattern,
+                                                 @RequestParam(defaultValue = "0") Integer pageNo,
+                                                 @RequestParam(defaultValue = "10") Integer pageSize) {
+        logger.info("Find Item by pattern: " + pattern + " and page No = " + pageNo + ", page size = " + pageSize);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Item> items = itemRepository.findItemByItemName(pattern, pageable);
+        HttpStatus httpStatus = HttpStatus.OK;
+        if (items.isEmpty()) {
+            httpStatus = HttpStatus.NOT_FOUND;
+        }
+        return ResponseEntity
+                .status(httpStatus)
+                .body(items.getContent());
+    }
+
+    @GetMapping("/barcode/{code}")
+    public ResponseEntity<List<Item>> findByBarcode(@PathVariable("code") String code) {
+        logger.info("Find Item by barcode: " + code);
+        List<Item> items = itemRepository.findItemByBarcode(code);
+        HttpStatus httpStatus = HttpStatus.OK;
+        if (items.isEmpty()) {
+            httpStatus = HttpStatus.NOT_FOUND;
+        }
+        return ResponseEntity
+                .status(httpStatus)
+                .body(items);
     }
 }

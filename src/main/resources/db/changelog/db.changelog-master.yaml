@@ -13,3 +13,5 @@ databaseChangeLog:
       file: db/changelog/changeset/create-item_sale-table.yaml
   - include:
       file: db/changelog/changeset/insert-constant-data.yaml
+  - include:
+      file: db/changelog/changeset/create-indexes-item-table.yaml

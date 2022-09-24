@@ -32,7 +32,8 @@ public class ArrivalService {
         for (ItemArrival item : items) {
             Optional<Item> foundItem = itemRepository.findById(item.getItem().getId());
             if (foundItem.isEmpty()) {
-                throw new NoSuchElementException("Товар " + item.getItem().getItemName() + " не найден в базе данных");
+                logger.info("Товар ID: " + item.getItem().getId() + " не найден в базе данных");
+                throw new NoSuchElementException("Товар ID: " + item.getItem().getId() + " не найден в базе данных");
             }
             foundItem.get().setPurchasePrice(item.getPrice());
             foundItem.get().setStockQuantity(item.getQuantity() + foundItem.get().getStockQuantity());

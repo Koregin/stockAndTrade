@@ -4,13 +4,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.koregin.stockAndTrade.model.Arrival;
 import ru.koregin.stockAndTrade.services.ArrivalService;
 
+import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
 @RestController
+@RequestMapping("/arrival")
 public class ArrivalController {
 
     private static Logger logger = Logger.getLogger(ArrivalController.class.getName());
@@ -21,11 +24,19 @@ public class ArrivalController {
         this.arrivalService = arrivalService;
     }
 
-    @PostMapping("/arrival")
-    public ResponseEntity<Void> createArrival(@RequestBody Arrival arrival) {
-        arrivalService.create(arrival);
+    @PostMapping
+    public ResponseEntity<String> createArrival(@RequestBody Arrival arrival) {
+        HttpStatus httpStatus = HttpStatus.CREATED;
+        String response = "CREATED";
+        try {
+            arrivalService.create(arrival);
+        } catch (NoSuchElementException ex) {
+            httpStatus = HttpStatus.NOT_FOUND;
+            response = ex.getMessage();
+            logger.info(response);
+        }
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .build();
+                .status(httpStatus)
+                .body(response);
     }
 }

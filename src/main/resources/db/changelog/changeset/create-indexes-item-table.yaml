@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_indexes_1
+      author: Evgeny Koregin
+      changes:
+        - createIndex:
+            column:
+              name: item_name
+            indexName: idx_item_name
+            tableName: items
+        - createIndex:
+            column:
+              name: article
+            indexName: idx_article
+            tableName: items
+        - createIndex:
+            column:
+              name: barcode
+            indexName: idx_barcode
+            tableName: items
